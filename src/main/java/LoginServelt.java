@@ -10,8 +10,6 @@ import javax.servlet.RequestDispatcher;
 @WebServlet("/LoginServlet")
 public class LoginServelt extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
-    // Predefined username and password
     private static final String VALID_USERNAME = "Admin";
     private static final String VALID_PASSWORD = "Admin@123";
 
