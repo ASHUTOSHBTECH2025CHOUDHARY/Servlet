@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +21,14 @@ public class LoginServelt extends HttpServlet {
         String username = request.getParameter("user");
         String password = request.getParameter("pwd");
 
+        if (!isValidUsername(username)) {
+            request.setAttribute("errorMessage", "Invalid Username! It must start with a capital letter.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
+
         if (VALID_USERNAME.equals(username) && VALID_PASSWORD.equals(password)) {
-            // Redirect back to login.jsp with a success message
             request.setAttribute("successMessage", "Login successful! Welcome, " + username + ".");
             RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
             dispatcher.forward(request, response);
@@ -30,5 +37,9 @@ public class LoginServelt extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
             dispatcher.forward(request, response);
         }
+    }
+
+    private boolean isValidUsername(String username) {
+        return Pattern.matches("[A-Z][a-zA-Z0-9]*", username);
     }
 }
