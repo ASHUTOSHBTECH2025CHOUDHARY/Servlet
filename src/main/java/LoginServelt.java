@@ -26,6 +26,13 @@ public class LoginServelt extends HttpServlet {
             return;
         }
 
+        if (!isValidPassword(password)) {
+            request.setAttribute("errorMessage", "Invalid Password! It must be at least 8 characters, contain one uppercase letter, one number, and exactly one special character.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
+
         if (VALID_USERNAME.equals(username) && VALID_PASSWORD.equals(password)) {
             request.setAttribute("successMessage", "Login successful! Welcome, " + username + ".");
             RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
@@ -39,5 +46,10 @@ public class LoginServelt extends HttpServlet {
 
     private boolean isValidUsername(String username) {
         return Pattern.matches("[A-Z][a-zA-Z0-9]*", username);
+    }
+
+    private boolean isValidPassword(String password) {
+        String PASSWORD_REGEX = "^(?=.*[A-Z])(?=.*\\d)(?=(?:[^!@#$%^&*()_+\\-=\\[\\]{};':\"\\|,.<>/?]*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\|,.<>/?]){1}[^!@#$%^&*()_+\\-=\\[\\]{};':\"\\|,.<>/?]*$).{8,}$";
+        return Pattern.matches(PASSWORD_REGEX, password);
     }
 }
