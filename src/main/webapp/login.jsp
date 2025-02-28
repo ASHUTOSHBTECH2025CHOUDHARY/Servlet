@@ -26,6 +26,10 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+        .message {
+            color: green;
+            font-size: 14px;
+        }
         .error {
             color: red;
             font-size: 14px;
@@ -48,6 +52,12 @@
 
 <div class="container">
     <h2>Login</h2>
+
+    <!-- Display success message -->
+    <p class="message">
+        <% String success = (String) request.getAttribute("successMessage");
+        if (success != null) { out.print(success); } %>
+    </p>
 
     <!-- Show error message if exists -->
     <p class="error">
